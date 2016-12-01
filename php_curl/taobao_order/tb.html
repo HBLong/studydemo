@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+   <div id="main">
+        <textarea v-model="showData" style="width:100vw;height:400px;" v-show="showData"></textarea>
+        <label>
+            输入pageNum
+            <input type="text" v-model="pageNum">
+        </label>
+        <label>
+            输入cookie
+            <textarea v-model="cookie"></textarea>
+        </label>
+        <button @click="sub">
+            提交
+        </button>
+   </div>
+
+    <script src="http://cdn.bootcss.com/jquery/3.1.1/jquery.min.js"></script>
+    <script src="http://cdn.bootcss.com/vue/2.1.3/vue.min.js"></script>
+    <script>
+        new Vue({
+            el:"#main",
+            data:function(){
+                return{
+                    showData:"",
+                    pageNum:"",
+                    cookie:""
+                }
+            },
+            methods:{
+                sub:function(){
+                    var that=this
+                    $.ajax({
+                        url:"./debug.php?pageNum="+that.pageNum,
+                        type:"post",
+                        data:{
+                            cookie:that.cookie
+                        },
+                        success:function(res){
+                            console.log(res)
+                            that.showData=JSON.stringify(JSON.parse(res),'',2)
+                        }
+                    })
+                }
+            }
+        })
+    </script>
+</body>
+</html>
